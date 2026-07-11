@@ -1,0 +1,26 @@
+# =========================
+# BACKEND (Python/FastAPI)
+# =========================
+# Blokir Virtual Environment di folder mana pun
+**/venv/
+**/.venv/
+**/env/
+
+# Blokir sampah Cache Python di folder mana pun
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# File Database (Opsional, tapi wajib jika kamu pakai SQLite agar data lokalmu tidak tertimpa)
+*.sqlite3
+*.db
+
+# =========================
+# FRONTEND (React Native/Expo)
+# =========================
+# Library pihak ketiga (Ukurannya sangat raksasa!)
+node_modules/
+
+# Cache bawaan Expo
+.expo/
