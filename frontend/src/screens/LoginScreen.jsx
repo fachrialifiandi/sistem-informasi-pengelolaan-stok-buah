@@ -5,7 +5,6 @@ import {
   TouchableOpacity, 
   SafeAreaView, 
   ActivityIndicator, 
-  Alert, 
   KeyboardAvoidingView, 
   Platform, 
   ScrollView 
@@ -36,7 +35,7 @@ export default function LoginScreen({ navigation }) {
     setServerError(null);
     try {
       await login(data.username, data.password);
-      // Navigation redirect is automatically handled by the AuthGuard in AppNavigator
+      // Pengalihan navigasi otomatis ditangani oleh AuthGuard di AppNavigator/App.jsx
     } catch (error) {
       setServerError(error.detail || 'Terjadi kesalahan. Periksa email atau password Anda.');
     } finally {
@@ -95,7 +94,7 @@ export default function LoginScreen({ navigation }) {
               iconName="lock"
               secureTextEntry
               rightElement={
-                <TouchableOpacity onPress={() => Alert.alert('Lupa Password', 'Halaman pemulihan sandi dapat diakses pada rilis berikutnya.')}>
+                <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
                   <Text className="text-xs text-[#006B7B] font-bold">
                     Lupa Password?
                   </Text>
@@ -123,7 +122,7 @@ export default function LoginScreen({ navigation }) {
           {/* Footer Navigation */}
           <View className="flex-row justify-center items-center mt-8">
             <Text className="text-gray-500 text-sm">Belum punya akun? </Text>
-            <TouchableOpacity onPress={() => Alert.alert('Daftar Sekarang', 'Registrasi mandiri belum dibuka untuk umum.')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text className="text-[#006B7B] font-bold text-sm">
                 Daftar sekarang
               </Text>

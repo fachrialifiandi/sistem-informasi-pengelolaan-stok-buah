@@ -3,6 +3,8 @@ import { View, ActivityIndicator } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
+import RegisterScreen from '../screens/RegisterScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import LoginScreen from '../screens/LoginScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 
@@ -20,22 +22,26 @@ export default function AppNavigator() {
     );
   }
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator 
-        screenOptions={{ 
-          headerShown: false,
-          cardStyle: { backgroundColor: '#F4F9F6' } 
-        }}
-      >
-        {isAuthenticated ? (
-          // Protected Screens (Dashboard)
-          <Stack.Screen name="Dashboard" component={DashboardScreen} />
-        ) : (
-          // Auth Screens (Login)
+return (
+  <NavigationContainer>
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        cardStyle: { backgroundColor: '#F4F9F6' } 
+      }}
+    >
+      {isAuthenticated ? (
+        // Protected Screens (Dashboard)
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
+      ) : (
+        // Auth Screens (Dibungkus dengan Stack.Group)
+        <Stack.Group>
           <Stack.Screen name="Login" component={LoginScreen} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        </Stack.Group>
+      )}
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 }
