@@ -70,7 +70,7 @@ export const Input = ({
                 className="pl-2 h-full justify-center"
               >
                 <Feather
-                  name={isPasswordVisible ? 'eye-off' : 'eye'}
+                  name={isPasswordVisible ? 'eye' : 'eye-off'}
                   size={18}
                   color="#9CA3AF"
                 />

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
 import { loginSchema } from '../utils/validation';
 import { Input } from '../components/Input';
@@ -58,13 +58,13 @@ export default function LoginScreen({ navigation }) {
           {/* Header App Branding */}
           <View className="items-center mb-8">
             <View className="w-16 h-16 bg-[#006B44] rounded-full items-center justify-center mb-4 shadow-sm shadow-[#006B44]/20">
-              <Feather name="leaf" size={30} color="white" />
+              <MaterialIcons name="eco" size={36} color="white" />
             </View>
             <Text className="text-[25px] font-bold text-[#006B44] mb-1.5 font-sans">
-              Fresh Vitality
+              Stock Fruit
             </Text>
             <Text className="text-gray-500 text-[14px] text-center font-sans">
-              Manajemen inventaris buah segar Anda.
+              Manajemen Inventaris buah segar Anda.
             </Text>
           </View>
 
