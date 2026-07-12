@@ -3,7 +3,6 @@ import {
   View, 
   Text, 
   TouchableOpacity, 
-  SafeAreaView, 
   ActivityIndicator, 
   KeyboardAvoidingView, 
   Platform, 
@@ -15,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import * as z from 'zod';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Skema validasi menggunakan Zod sesuai field pemulihan pada HTML
 const forgotPasswordSchema = z.object({

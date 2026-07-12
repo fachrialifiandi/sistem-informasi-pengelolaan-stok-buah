@@ -17,6 +17,8 @@ import EditFruitScreen from '../screens/EditFruitScreen';
 import SettingScreen from '../screens/SettingScreen';
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 import ReportDetailScreen from '../screens/ReportDetailScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -120,8 +122,11 @@ export default function AppNavigator() {
             <Stack.Screen name="ReportDetail" component={ReportDetailScreen} />
           </>
         ) : (
-          // Render Login Stack when logged out
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
