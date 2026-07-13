@@ -25,14 +25,14 @@ const forgotPasswordSchema = z.object({
   newPassword: z.string().min(8, 'Password baru minimal 8 karakter'),
 });
 
-export default function ForgotPasswordScreen({ navigation }) {
+export default function ForgotPasswordScreen({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      email: '',
+      email: route.params?.email || '',
       recoveryKey: '',
       newPassword: ''
     }
@@ -81,7 +81,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           >
             <Feather name="arrow-left" size={20} color="#006C49" />
             <Text className="text-[#006C49] font-semibold text-sm ml-2">
-              Kembali ke Login
+              {route.params?.email ? "Kembali ke Pengaturan" : "Kembali ke Login"}
             </Text>
           </TouchableOpacity>
 

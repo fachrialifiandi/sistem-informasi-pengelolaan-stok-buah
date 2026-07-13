@@ -120,6 +120,7 @@ export default function AppNavigator() {
             <Stack.Screen name="Setting" component={SettingScreen} />
             <Stack.Screen name="TransactionDetail" component={TransactionDetailScreen} />
             <Stack.Screen name="ReportDetail" component={ReportDetailScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
           </>
         ) : (
           <>

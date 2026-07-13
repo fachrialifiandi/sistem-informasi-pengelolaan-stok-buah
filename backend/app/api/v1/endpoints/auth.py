@@ -116,3 +116,48 @@ def forgot_password(recovery_data: ForgotPasswordRequest, db: Session = Depends(
     
     logger.info(f"Password successfully reset for user: {user.email}")
     return {"message": "Password berhasil diatur ulang."}
+
+from app.core.deps import get_current_user
+from app.models.user import User
+
+@router.get("/recovery-key")
+def get_recovery_key(current_user: User = Depends(get_current_user)):
+    """
+    Get current logged in user's recovery key.
+    """
+    return {"recoveryKey": current_user.recovery_key}
+
+@router.post("/generate-recovery-key")
+def update_recovery_key(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """
+    Generate a new 8-character recovery key for current user.
+    """
+    new_key = generate_recovery_key()
+    current_user.recovery_key = new_key
+    db.commit()
+    db.refresh(current_user)
+    return {"recoveryKey": new_key}
+
+from app.schemas.auth import ChangePasswordRequest
+from app.core.security import verify_password
+
+@router.post("/change-password")
+def change_password(
+    data: ChangePasswordRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Change password for authenticated user.
+    """
+    if not verify_password(data.currentPassword, current_user.password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password lama tidak sesuai."
+        )
+    
+    current_user.password = hash_password(data.newPassword)
+    db.commit()
+    return {"message": "Password berhasil diubah."}
+
+

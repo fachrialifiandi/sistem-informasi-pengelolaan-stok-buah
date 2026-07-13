@@ -186,7 +186,7 @@ export default function ReportDetailScreen({ navigation }) {
           {/* Tabel Ringkasan Bulanan */}
           <View className="mb-8">
             <View className="flex-row items-center justify-between mb-4">
-              <Text className="text-[18px] font-bold text-[#191C1E] dark:text-white">Ringkasan Periodik</Text>
+              <Text className="text-[18px] font-bold text-[#191C1E] dark:text-white">Ringkasan Bulanan</Text>
               <Text className="text-[#006C49] dark:text-[#4EDEA3] font-semibold text-[12px]">Total {summaryData.length} Buah</Text>
             </View>
             
@@ -218,7 +218,7 @@ export default function ReportDetailScreen({ navigation }) {
 
           {/* Ringkasan Stok Bulanan (Cards) */}
           <View className="mb-8">
-            <Text className="text-[18px] font-bold text-[#191C1E] dark:text-white mb-4">Metrik Total</Text>
+            <Text className="text-[18px] font-bold text-[#191C1E] dark:text-white mb-4">Ringkasan Stok Bulanan</Text>
             <View className="flex-row gap-3">
               <View className="flex-1 bg-[#F2F4F6] dark:bg-[#2D3133] rounded-xl p-4 border-l-4 border-l-[#006C49]">
                 <Text className="text-[10px] font-bold text-[#6C7A71] mb-1 uppercase tracking-widest">Total Stok Masuk</Text>
@@ -239,7 +239,7 @@ export default function ReportDetailScreen({ navigation }) {
 
           {/* Log Transaksi List */}
           <View className="mb-6">
-            <Text className="text-[18px] font-bold text-[#191C1E] dark:text-white mb-4">Log Transaksi Terakhir</Text>
+            <Text className="text-[18px] font-bold text-[#191C1E] dark:text-white mb-4">Log Transaksi</Text>
             
             {transactionLogs.length === 0 ? (
               <View className="py-6 items-center">

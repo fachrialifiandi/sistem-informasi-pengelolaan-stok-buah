@@ -29,3 +29,7 @@ class ForgotPasswordRequest(BaseModel):
     email: str
     recoveryKey: str = Field(..., description="The 8-character recovery key")
     newPassword: str = Field(..., min_length=8, description="The new password")
+
+class ChangePasswordRequest(BaseModel):
+    currentPassword: str = Field(..., description="The user's current password")
+    newPassword: str = Field(..., min_length=8, description="The new password")

@@ -20,7 +20,7 @@ export default function SettingScreen({ navigation }) {
   const { logout, user } = useContext(AuthContext);
   const { showNotification } = useContext(NotificationContext);
   
-  const [fullName, setFullName] = useState(user?.full_name || 'Pemilik Toko');
+  const [fullName, setFullName] = useState(user?.nama_user || 'Pemilik Toko');
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
 
   const handleToggleDark = (value) => {
@@ -44,21 +44,17 @@ export default function SettingScreen({ navigation }) {
   };
 
   const handleBackup = () => {
-    Alert.alert("Backup Data", "Backup database berhasil dibuat dan diunggah ke cloud.");
+    Alert.alert("Backup Data", "Fitur akan tersedia di Patch yang akan Hadir.");
   };
 
   const handleRestore = () => {
-    Alert.alert("Restore Backup", "Fungsionalitas restore cadangan berhasil disimulasikan.");
+    Alert.alert("Restore Backup", "Fitur akan tersedia di Patch yang akan Hadir.");
   };
 
   const handleResetData = () => {
     Alert.alert(
       "Reset Semua Data",
-      "PERINGATAN: Tindakan ini akan menghapus semua database inventaris secara permanen. Apakah Anda yakin?",
-      [
-        { text: "Batal", style: "cancel" },
-        { text: "Reset", style: "destructive", onPress: () => Alert.alert("Berhasil", "Database inventaris telah di-reset.") }
-      ]
+      "Fitur akan hadir di Patch berikutnya."
     );
   };
 
@@ -152,7 +148,7 @@ export default function SettingScreen({ navigation }) {
           {/* Ubah Password Button */}
           <TouchableOpacity
             activeOpacity={0.85}
-            onPress={() => Alert.alert("Ubah Password", "Fungsionalitas mengubah password belum diaktifkan.")}
+            onPress={() => navigation.navigate('ForgotPassword', { email: user?.username })}
             className="flex-row items-center justify-between p-4 bg-white dark:bg-[#1E1E1E] rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm mt-3"
           >
             <View className="flex-row items-center gap-3">
@@ -167,6 +163,7 @@ export default function SettingScreen({ navigation }) {
             <MaterialIcons name="chevron-right" size={20} color="#94A3B8" />
           </TouchableOpacity>
         </View>
+
 
         {/* Section 2: Preferensi */}
         <View className="mb-6">
@@ -319,7 +316,7 @@ export default function SettingScreen({ navigation }) {
                 </View>
                 <Text className="text-sm font-bold text-gray-800 dark:text-white">Versi Aplikasi</Text>
               </View>
-              <Text className="text-xs text-gray-450 font-mono">1.0.0</Text>
+              <Text className="text-xs text-gray-450">1.0.0</Text>
             </View>
           </View>
         </View>
@@ -334,7 +331,7 @@ export default function SettingScreen({ navigation }) {
             <MaterialIcons name="logout" size={18} color="#BA1A1A" />
             <Text className="text-[#BA1A1A] font-bold text-sm">Keluar</Text>
           </TouchableOpacity>
-          <Text className="text-center text-[10px] text-gray-400 mt-5">StockFruit © 2024. All produce deserves a home.</Text>
+          <Text className="text-center text-[10px] text-gray-400 mt-5">StockFruit © 2026. All produce deserves a home.</Text>
         </View>
 
       </ScrollView>
