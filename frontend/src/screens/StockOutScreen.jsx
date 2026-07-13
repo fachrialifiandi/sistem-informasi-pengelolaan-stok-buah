@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { 
   View, 
   Text, 
@@ -14,9 +14,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { inventoryService } from '../services/inventory.service';
 import { getFruitEmoji } from '../utils/fruit';
+import { NotificationContext } from '../context/NotificationContext';
 import { StatusBar } from 'expo-status-bar';
 
 export default function StockOutScreen({ navigation }) {
+  const { showNotification } = useContext(NotificationContext);
   const [fruits, setFruits] = useState([]);
   const [filteredFruits, setFilteredFruits] = useState([]);
   
@@ -141,6 +143,20 @@ export default function StockOutScreen({ navigation }) {
         items: itemsPayload,
         reason: exitReason,
         notes: notes.trim()
+      });
+
+      // Check if any of the checked out items dropped to low stock threshold (<= 10 kg)
+      selectedItemsList.forEach(item => {
+        const qtyToSubtract = parseFloat(selectedQuantities[item.id_buah]) || 0;
+        const remainingStock = item.current_stock - qtyToSubtract;
+        if (remainingStock <= 10) {
+          setTimeout(() => {
+            showNotification(
+              "Eco Stock Bot 🤖",
+              `⚠️ Peringatan: Stok ${item.nama_buah} menipis, sisa ${remainingStock.toFixed(1)} kg! Segera lakukan restock.`
+            );
+          }, 850);
+        }
       });
 
       Alert.alert("Berhasil", "Data stok keluar berhasil dicatat dan inventaris telah diperbarui!", [

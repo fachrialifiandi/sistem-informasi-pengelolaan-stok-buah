@@ -15,5 +15,6 @@ export const getFruitEmoji = (name) => {
   if (n.includes('naga') || n.includes('dragon')) return '🐉';
   if (n.includes('lengkeng') || n.includes('longan')) return '🧆';
   if (n.includes('belimbing') || n.includes('starfruit')) return '⭐';
+  if (n.includes('kiwi')) return '🥝';
   return '🍏';
 };

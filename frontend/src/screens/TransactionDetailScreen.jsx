@@ -77,9 +77,9 @@ export default function TransactionDetailScreen({ route, navigation }) {
         </View>
 
         {/* Meta Information Bento Grid */}
-        <View className="flex-row flex-wrap gap-3 mb-6">
+        <View className="flex-row gap-3 mb-3">
           {/* Card 1: Tanggal & Waktu */}
-          <View className="w-[48%] bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+          <View className="flex-1 bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
             <Text className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-2">Tanggal & Waktu</Text>
             <Text className="text-sm font-bold text-gray-800 dark:text-white">
               {transaction.date_group === "Hari Ini" ? "Hari Ini" : transaction.date_group === "Kemarin" ? "Kemarin" : "12 Jul 2026"}
@@ -88,7 +88,7 @@ export default function TransactionDetailScreen({ route, navigation }) {
           </View>
 
           {/* Card 2: Nama Pemasok */}
-          <View className="w-[48%] bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+          <View className="flex-1 bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
             <Text className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-2">Nama Pemasok</Text>
             <Text className="text-sm font-bold text-gray-800 dark:text-white" numberOfLines={1}>
               {transaction.supplier_name}
@@ -98,13 +98,13 @@ export default function TransactionDetailScreen({ route, navigation }) {
               <Text className="text-[9px] font-bold text-[#006C49]">Terverifikasi</Text>
             </View>
           </View>
+        </View>
 
-          {/* Card 3: Total Berat */}
-          <View className="w-full bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
-            <Text className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Total Berat</Text>
-            <Text className="text-lg font-bold text-[#006C49] dark:text-[#4EDEA3]">{transaction.total_weight} kg</Text>
-            <Text className="text-xs text-gray-400 mt-0.5">{transaction.items?.length || 0} Jenis Produk</Text>
-          </View>
+        {/* Card 3: Total Berat (Berada di baris baru di bawahnya) */}
+        <View className="w-full bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm mb-6">
+          <Text className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Total Berat</Text>
+          <Text className="text-lg font-bold text-[#006C49] dark:text-[#4EDEA3]">{transaction.total_weight} kg</Text>
+          <Text className="text-xs text-gray-400 mt-0.5">{transaction.items?.length || 0} Jenis Produk</Text>
         </View>
 
         {/* Inventory List Card */}
@@ -131,8 +131,8 @@ export default function TransactionDetailScreen({ route, navigation }) {
                     <View className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#2D3133] items-center justify-center">
                       <Text className="text-[24px]">{getFruitEmoji(item.nama_buah)}</Text>
                     </View>
-                    <View>
-                      <Text className="text-sm font-bold text-gray-800 dark:text-white pr-2" numberOfLines={1}>
+                    <View className="flex-1 pr-2">
+                      <Text className="text-sm font-bold text-gray-800 dark:text-white" numberOfLines={1}>
                         {item.nama_buah}
                       </Text>
                       <Text className="text-[10px] text-gray-400 mt-0.5">SKU: {item.sku}</Text>

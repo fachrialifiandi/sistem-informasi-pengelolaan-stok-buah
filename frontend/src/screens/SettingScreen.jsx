@@ -8,8 +8,9 @@ import {
   Switch, 
   Alert
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
+import { NotificationContext } from '../context/NotificationContext';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,6 +18,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function SettingScreen({ navigation }) {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const { logout, user } = useContext(AuthContext);
+  const { showNotification } = useContext(NotificationContext);
   
   const [fullName, setFullName] = useState(user?.full_name || 'Pemilik Toko');
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
@@ -57,6 +59,20 @@ export default function SettingScreen({ navigation }) {
         { text: "Batal", style: "cancel" },
         { text: "Reset", style: "destructive", onPress: () => Alert.alert("Berhasil", "Database inventaris telah di-reset.") }
       ]
+    );
+  };
+
+  const handleSimulateLowStock = () => {
+    showNotification(
+      "Notifikasi 🔔",
+      "⚠️ Peringatan: Stok Mangga Harum Manis menipis, tersisa 4.2 kg!"
+    );
+  };
+
+  const handleSimulateLowFreshness = () => {
+    showNotification(
+      "Notifikasi 🔔",
+      "❄️ Peringatan Kesegaran: Tingkat kesegaran Pisang Ambon menurun ke 60% (kurang segar)."
     );
   };
 
@@ -244,6 +260,49 @@ export default function SettingScreen({ navigation }) {
                 <Text className="text-sm font-bold text-[#BA1A1A]">Reset Semua Data</Text>
               </View>
               <MaterialIcons name="warning" size={16} color="#BA1A1A" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Section: Fitur Uji Coba */}
+        <View className="mb-6">
+          <Text className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2.5 ml-1">Simulasi Uji Coba</Text>
+          
+          <View className="bg-white dark:bg-[#1E1E1E] rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
+            {/* Simulasi Stok Menipis */}
+            <TouchableOpacity
+              activeOpacity={0.85}
+              onPress={handleSimulateLowStock}
+              className="flex-row items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800"
+            >
+              <View className="flex-row items-center gap-3">
+                <View className="bg-yellow-50 dark:bg-yellow-950/20 p-1.5 rounded-lg">
+                  <MaterialIcons name="warning" size={18} color="#D97706" />
+                </View>
+                <View>
+                  <Text className="text-sm font-bold text-gray-800 dark:text-white">Simulasi WhatsApp: Stok Menipis</Text>
+                  <Text className="text-[10px] text-gray-400 mt-0.5">Tes notifikasi stok buah di bawah batas aman</Text>
+                </View>
+              </View>
+              <Feather name="bell" size={16} color="#D97706" />
+            </TouchableOpacity>
+
+            {/* Simulasi Kesegaran Rendah */}
+            <TouchableOpacity
+              activeOpacity={0.85}
+              onPress={handleSimulateLowFreshness}
+              className="flex-row items-center justify-between p-4"
+            >
+              <View className="flex-row items-center gap-3">
+                <View className="bg-blue-50 dark:bg-blue-950/20 p-1.5 rounded-lg">
+                  <MaterialIcons name="ac-unit" size={18} color="#2563EB" />
+                </View>
+                <View>
+                  <Text className="text-sm font-bold text-gray-800 dark:text-white">Simulasi WhatsApp: Kesegaran Rendah</Text>
+                  <Text className="text-[10px] text-gray-400 mt-0.5">Tes notifikasi penurunan tingkat kesegaran</Text>
+                </View>
+              </View>
+              <Feather name="bell" size={16} color="#2563EB" />
             </TouchableOpacity>
           </View>
         </View>
