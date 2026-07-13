@@ -9,12 +9,12 @@ const resolveImageUrl = (imageUrl) => {
   return imageUrl;
 };
 
-const formatTransactionDateTime = (createdAtStr) => {
-  if (!createdAtStr) return { timeStr: "00:00 WIB", dateGroup: "Hari Ini" };
+const formatTransactionDateTime = (createdAtStr, fallbackTimeStr, fallbackDateGroup) => {
+  if (!createdAtStr) return { timeStr: fallbackTimeStr || "00:00 WIB", dateGroup: fallbackDateGroup || "Hari Ini" };
   
   const txDate = new Date(createdAtStr);
   if (isNaN(txDate.getTime())) {
-    return { timeStr: "00:00 WIB", dateGroup: "Hari Ini" };
+    return { timeStr: fallbackTimeStr || "00:00 WIB", dateGroup: fallbackDateGroup || "Hari Ini" };
   }
   
   const hours = String(txDate.getHours()).padStart(2, '0');
@@ -76,7 +76,7 @@ export const inventoryService = {
     }
     const response = await api.get('/api/v1/transactions/', { params });
     return response.data.map(tx => {
-      const { timeStr, dateGroup } = formatTransactionDateTime(tx.created_at);
+      const { timeStr, dateGroup } = formatTransactionDateTime(tx.created_at, tx.time_str, tx.date_group);
       return {
         ...tx,
         time_str: timeStr,
