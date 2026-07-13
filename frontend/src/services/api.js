@@ -2,16 +2,8 @@ import axios from 'axios';
 import { storage } from '../utils/storage';
 import { Platform } from 'react-native';
 
-const USE_NGROK = false; // Set false to switch back to local emulator/localhost development
-
 const getBaseUrl = () => {
-  if (USE_NGROK) {
-    return 'https://trial-rival-jellied.ngrok-free.dev';
-  }
-  if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:8000';
-  }
-  return 'http://localhost:8000';
+  return 'https://sistem-informasi-pengelolaan-stok-buah-production.up.railway.app';
 };
 
 const api = axios.create({
@@ -21,6 +13,8 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+api.logoutCallback = null;
 
 // Add a request interceptor to inject the JWT token automatically
 api.interceptors.request.use(
@@ -43,6 +37,9 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       try {
         await storage.clearAuth();
+        if (api.logoutCallback) {
+          api.logoutCallback();
+        }
       } catch (storageError) {
         console.error('Failed to clear storage on 401 error:', storageError);
       }

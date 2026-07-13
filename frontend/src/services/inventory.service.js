@@ -14,7 +14,7 @@ export const inventoryService = {
    * Fetch current inventory items with stock level metadata.
    */
   async getInventory() {
-    const response = await api.get('/api/v1/fruits');
+    const response = await api.get('/api/v1/fruits/');
     return response.data.map(item => ({
       ...item,
       image: resolveImageUrl(item.image)
@@ -25,7 +25,7 @@ export const inventoryService = {
    * Fetch list of active suppliers for restocking.
    */
   async getSuppliers() {
-    const response = await api.get('/api/v1/suppliers');
+    const response = await api.get('/api/v1/suppliers/');
     return response.data;
   },
 
@@ -37,7 +37,7 @@ export const inventoryService = {
     if (period) {
       params.period = period;
     }
-    const response = await api.get('/api/v1/transactions', { params });
+    const response = await api.get('/api/v1/transactions/', { params });
     return response.data.map(tx => ({
       ...tx,
       items: tx.items?.map(item => ({
@@ -55,7 +55,7 @@ export const inventoryService = {
     if (period) {
       params.period = period;
     }
-    const response = await api.get('/api/v1/stats', { params });
+    const response = await api.get('/api/v1/stats/', { params });
     return response.data;
   },
 

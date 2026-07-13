@@ -16,10 +16,6 @@ export default function TransactionDetailScreen({ route, navigation }) {
   const { colorScheme } = useColorScheme();
   const { transaction } = route.params; // Expecting transaction object from TransaksiScreen
 
-  const handleDownloadNota = () => {
-    Alert.alert("Unduh Nota", "Nota berhasil diunduh ke folder berkas lokal.");
-  };
-
   // Helper to determine status badge colors
   const isSuccess = transaction.status === "Berhasil";
 
@@ -63,17 +59,6 @@ export default function TransactionDetailScreen({ route, navigation }) {
           <Text className="text-xl font-bold text-gray-800 dark:text-white">Detail Transaksi Restok</Text>
           <Text className="text-xs text-gray-400 mt-1">ID: {transaction.id_transaksi}</Text>
 
-          {/* Action Button */}
-          <View className="mt-4">
-            <TouchableOpacity 
-              activeOpacity={0.8}
-              onPress={handleDownloadNota}
-              className="py-3 px-4 bg-[#006C49] rounded-full flex-row items-center justify-center gap-2 shadow-sm"
-            >
-              <MaterialIcons name="download" size={16} color="white" />
-              <Text className="text-xs font-bold text-white">Unduh Nota</Text>
-            </TouchableOpacity>
-          </View>
         </View>
 
         {/* Meta Information Bento Grid */}

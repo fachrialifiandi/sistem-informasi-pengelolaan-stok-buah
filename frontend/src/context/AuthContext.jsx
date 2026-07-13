@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { storage } from '../utils/storage';
 import { authService } from '../services/auth.service';
+import api from '../services/api';
 
 export const AuthContext = createContext();
 
@@ -11,6 +12,8 @@ export const AuthProvider = ({ children }) => {
 
   // Run on mount to check if token exists
   useEffect(() => {
+    api.logoutCallback = logout;
+
     const initializeAuth = async () => {
       try {
         const storedToken = await storage.getToken();
