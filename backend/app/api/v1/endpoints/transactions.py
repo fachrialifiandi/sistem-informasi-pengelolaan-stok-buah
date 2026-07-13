@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import extract
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from app.core.database import get_db
 from app.core.deps import get_current_user
@@ -114,7 +114,7 @@ def post_restock(
         })
 
     # Log transaction
-    now = datetime.now()
+    now = datetime.now(timezone(timedelta(hours=7)))
     tx_id = f"TRX-FV-{now.strftime('%Y%m%d')}-{random.randint(100, 999)}"
     tx_repo.create_transaction(
         id_transaksi=tx_id,
@@ -173,7 +173,7 @@ def post_stock_out(
         })
 
     # Log transaction
-    now = datetime.now()
+    now = datetime.now(timezone(timedelta(hours=7)))
     tx_id = f"TRX-FV-{now.strftime('%Y%m%d')}-{random.randint(100, 999)}"
     
     supplier_name = "Penjualan Grosir"
