@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.core.database import get_db
 from app.core.deps import get_current_user
 from app.models.user import User
@@ -37,9 +37,10 @@ def get_stats(
             total_out += t.total_weight
 
         # Group movements daily
-        date_key = t.date_group
+        dt = t.created_at or datetime.now()
+        date_key = dt.strftime("%Y-%m-%d")
         if date_key not in daily_summary:
-            daily_summary[date_key] = {"in": 0.0, "out": 0.0, "count": 0, "created_at": t.created_at}
+            daily_summary[date_key] = {"in": 0.0, "out": 0.0, "count": 0, "date": dt}
 
         if t.type == "incoming" and t.status == "Berhasil":
             daily_summary[date_key]["in"] += t.total_weight
@@ -53,8 +54,9 @@ def get_stats(
     indonesian_days = ["MIN", "SEN", "SEL", "RAB", "KAM", "JUM", "SAB"]
     indonesian_months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"]
 
-    for date_key, info in daily_summary.items():
-        dt = info["created_at"] or datetime.now()
+    for date_key in sorted(daily_summary.keys(), reverse=True):
+        info = daily_summary[date_key]
+        dt = info["date"]
         
         # Determine day index from weekday (0 = Sunday, 6 = Saturday)
         day_idx = int(dt.strftime("%w"))
@@ -62,9 +64,15 @@ def get_stats(
         day_num = dt.strftime("%d")
         month_abbr = indonesian_months[dt.month - 1]
 
-        title = f"Transaksi {date_key}"
-        if date_key in ["Hari Ini", "Kemarin"]:
-            title = f"Transaksi {date_key}"
+        # Determine relative date title
+        now_date = datetime.now().date()
+        tx_date = dt.date() if hasattr(dt, 'date') else dt
+        if tx_date == now_date:
+            title = "Transaksi Hari Ini"
+        elif tx_date == now_date - timedelta(days=1):
+            title = "Transaksi Kemarin"
+        else:
+            title = f"Transaksi {day_num} {month_abbr} {dt.strftime('%Y')}"
 
         movements.append({
             "day_abbr": day_abbr,
