@@ -7,7 +7,8 @@ import {
   KeyboardAvoidingView, 
   Platform, 
   ScrollView,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +16,7 @@ import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import * as z from 'zod';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { authService } from '../services/auth.service';
 
 // Skema validasi menggunakan Zod sesuai field pemulihan pada HTML
 const forgotPasswordSchema = z.object({
@@ -39,10 +41,22 @@ export default function ForgotPasswordScreen({ navigation }) {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      // Masukkan logika integrasi API pemulihan di sini
-      console.log('Reset Password Data:', data);
+      await authService.forgotPassword(data.email, data.recoveryKey, data.newPassword);
+      Alert.alert(
+        "Password Diubah",
+        "Kata sandi akun Anda berhasil diatur ulang. Silakan masuk menggunakan password baru.",
+        [
+          {
+            text: "Kembali ke Login",
+            onPress: () => {
+              navigation.navigate('Login');
+            }
+          }
+        ],
+        { cancelable: false }
+      );
     } catch (error) {
-      console.error(error);
+      Alert.alert("Gagal Mengatur Ulang", error.detail || "Recovery key tidak valid atau email salah.");
     } finally {
       setIsLoading(false);
     }
@@ -73,10 +87,10 @@ export default function ForgotPasswordScreen({ navigation }) {
 
           {/* Header Title Area */}
           <View className="mb-6">
-            <Text className="text-[27px] font-bold text-[#006C49] mb-2 font-sans">
+            <Text className="text-[27px] font-bold text-[#006C49] mb-2">
               Lupa Password?
             </Text>
-            <Text className="text-[#3C4A42] text-sm leading-5 font-sans">
+            <Text className="text-[#3C4A42] text-sm leading-5">
               Jangan khawatir. Masukkan email dan kunci pemulihan untuk mengatur ulang kata sandi Anda.
             </Text>
           </View>

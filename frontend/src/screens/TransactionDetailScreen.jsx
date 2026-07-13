@@ -4,10 +4,10 @@ import {
   Text, 
   TouchableOpacity,  
   ScrollView, 
-  Image, 
   Alert
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { getFruitEmoji } from '../utils/fruit';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -128,11 +128,8 @@ export default function TransactionDetailScreen({ route, navigation }) {
               return (
                 <View key={idx} className="p-4 flex-row items-center justify-between">
                   <View className="flex-row items-center gap-3">
-                    <View className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 dark:bg-[#2D3133] border border-gray-200 dark:border-gray-800">
-                      <Image 
-                        source={{ uri: item.image }}
-                        className="w-full h-full object-cover"
-                      />
+                    <View className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-[#2D3133] items-center justify-center">
+                      <Text className="text-[24px]">{getFruitEmoji(item.nama_buah)}</Text>
                     </View>
                     <View>
                       <Text className="text-sm font-bold text-gray-800 dark:text-white pr-2" numberOfLines={1}>

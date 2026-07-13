@@ -16,9 +16,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingScreen({ navigation }) {
   const { colorScheme, toggleColorScheme } = useColorScheme();
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   
-  const [fullName, setFullName] = useState('Budi Santoso');
+  const [fullName, setFullName] = useState(user?.full_name || 'Pemilik Toko');
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
 
   const handleToggleDark = (value) => {
@@ -119,7 +119,7 @@ export default function SettingScreen({ navigation }) {
             <View className="space-y-1">
               <Text className="text-xs font-semibold text-gray-500 px-1">Email</Text>
               <View className="w-full bg-gray-150/50 dark:bg-[#2D3133]/50 border border-gray-200 dark:border-gray-800 rounded-lg px-4 py-2.5 opacity-80">
-                <Text className="text-sm text-gray-500 font-medium">contoh@freshvitality.com</Text>
+                <Text className="text-sm text-gray-500 font-medium">{user?.username || 'contoh@freshvitality.com'}</Text>
               </View>
             </View>
 

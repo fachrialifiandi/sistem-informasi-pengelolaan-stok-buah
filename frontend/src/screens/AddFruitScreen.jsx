@@ -75,22 +75,6 @@ export default function AddFruitScreen({ navigation }) {
           keyboardShouldPersistTaps="handled"
         >
           <View className="bg-white dark:bg-[#1E1E1E] rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm">
-            {/* Image Placeholder Section */}
-            <View className="mb-6 items-center">
-              <TouchableOpacity 
-                activeOpacity={0.8} 
-                onPress={() => Alert.alert("Unggah Foto", "Fungsionalitas kamera/galeri akan diintegrasikan pada rilis berikutnya.")}
-                className="relative w-28 h-28 mb-3"
-              >
-                <View className="w-full h-full rounded-xl bg-gray-100 dark:bg-[#2D3133] items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600">
-                  <MaterialIcons name="add-a-photo" size={32} color={colorScheme === 'dark' ? '#BBCABF' : '#3C4A42'} />
-                </View>
-                <View className="absolute bottom-0 right-0 bg-[#006C49] dark:bg-[#4EDEA3] p-1.5 rounded-full border-2 border-white dark:border-[#1E1E1E]">
-                  <MaterialIcons name="edit" size={12} color="white" />
-                </View>
-              </TouchableOpacity>
-              <Text className="text-xs text-gray-400">Tap to add fruit image</Text>
-            </View>
 
             {/* Form Fields */}
             <View className="space-y-4">

@@ -4,7 +4,6 @@ import {
   Text, 
   TouchableOpacity, 
   ScrollView, 
-  Image, 
   TextInput, 
   ActivityIndicator, 
   Alert,
@@ -13,6 +12,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { inventoryService } from '../services/inventory.service';
+import { getFruitEmoji } from '../utils/fruit';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from 'nativewind';
@@ -180,7 +180,7 @@ export default function InventoryScreen({ navigation }) {
             <Text className="text-gray-500 mt-2 text-sm">Tidak ada buah yang cocok.</Text>
           </View>
         ) : (
-          <View className="flex-row flex-wrap justify-between">
+          <View className="space-y-3">
             {filteredInventory.map((item) => {
               const statusStyle = getStatusStyle(item.status);
               const isOut = item.current_stock === 0;
@@ -188,47 +188,33 @@ export default function InventoryScreen({ navigation }) {
               return (
                 <View 
                   key={item.id_buah}
-                  className={`w-[48%] bg-white rounded-2xl p-3.5 mb-4 shadow-[0px_4px_20px_rgba(0,108,73,0.03)] border border-gray-100 relative ${isOut ? 'opacity-70' : ''}`}
+                  className={`w-full bg-white rounded-xl p-4 shadow-[0px_4px_20px_rgba(0,108,73,0.03)] border border-gray-100 flex-row justify-between items-center ${isOut ? 'opacity-70' : ''}`}
                 >
-                  {/* SKU Badge */}
-                  <View className="absolute top-3.5 right-3.5 z-10 bg-white/95 px-2 py-0.5 rounded-full border border-gray-100 shadow-sm">
-                    <Text className="text-[10px] text-gray-500 font-semibold">SKU: {item.sku}</Text>
-                  </View>
-
-                  {/* Image */}
-                  <View className="h-28 w-full rounded-xl bg-[#ECEEF0]/60 overflow-hidden mb-3">
-                    <Image
-                      source={{ uri: item.image }}
-                      className="w-full h-full object-cover"
-                      resizeMode="cover"
-                    />
-                  </View>
-
-                  {/* Title & Status */}
-                  <View className="mb-2">
-                    <Text className="text-sm font-bold text-gray-800" numberOfLines={1}>
-                      {item.nama_buah}
-                    </Text>
-                    <View className={`self-start px-2 py-0.5 rounded-full mt-1 ${statusStyle.bg} ${statusStyle.border}`}>
-                      <Text className={`text-[9px] font-bold ${statusStyle.text}`}>{item.status}</Text>
+                  <View className="flex-row items-center flex-1 pr-3">
+                    <View className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-[#2D3133] items-center justify-center mr-3">
+                      <Text className="text-[24px]">{getFruitEmoji(item.nama_buah)}</Text>
+                    </View>
+                    <View className="flex-1">
+                      <View className="flex-row items-center gap-2 mb-1.5 flex-wrap">
+                        <Text className="text-base font-bold text-gray-800">
+                          {item.nama_buah}
+                        </Text>
+                        <View className={`px-2 py-0.5 rounded-full ${statusStyle.bg} ${statusStyle.border}`}>
+                          <Text className={`text-[9px] font-bold ${statusStyle.text}`}>{item.status}</Text>
+                        </View>
+                      </View>
+                      <View className="flex-row items-center gap-4">
+                        <Text className="text-xs text-gray-400">SKU: <Text className="font-semibold text-gray-500">{item.sku}</Text></Text>
+                        <Text className="text-xs text-gray-400">Stok: <Text className={`font-bold ${isOut ? 'text-gray-450' : 'text-[#006C49]'}`}>{item.current_stock} kg</Text></Text>
+                      </View>
                     </View>
                   </View>
-
-                  {/* Bottom Line Info */}
-                  <View className="flex-row justify-between items-end mt-2 pt-2 border-t border-gray-100">
-                    <View>
-                      <Text className="text-[10px] text-gray-400">Current Stock</Text>
-                      <Text className={`text-sm font-bold ${isOut ? 'text-gray-400' : 'text-[#006C49]'}`}>
-                        {item.current_stock} <Text className="text-[10px] text-gray-500">kg</Text>
-                      </Text>
-                    </View>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('EditFruit', { fruit: item })}
-                      className="p-1.5 rounded-full bg-gray-50 hover:bg-gray-100 active:scale-90"
-                    >
-                      <Feather name="edit-2" size={12} color="#006C49" />
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('EditFruit', { fruit: item })}
+                    className="w-8 h-8 rounded-full bg-gray-50 items-center justify-center border border-gray-100 active:scale-95"
+                  >
+                    <Feather name="edit-2" size={12} color="#006C49" />
+                  </TouchableOpacity>
                 </View>
               );
             })}

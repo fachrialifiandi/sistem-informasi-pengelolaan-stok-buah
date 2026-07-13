@@ -4,7 +4,6 @@ import {
   Text, 
   TouchableOpacity,
   ScrollView, 
-  Image, 
   TextInput, 
   ActivityIndicator, 
   Alert,
@@ -13,6 +12,7 @@ import {
 } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { inventoryService } from '../services/inventory.service';
+import { getFruitEmoji } from '../utils/fruit';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from 'nativewind';
@@ -218,11 +218,8 @@ const handleQtyChange = (id_buah, value) => {
                     key={item.id_buah}
                     className="bg-white rounded-2xl p-4 shadow-[0px_4px_20px_rgba(0,108,73,0.03)] border border-gray-100 flex-row gap-4 items-center"
                   >
-                    <View className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
-                      <Image
-                        source={{ uri: item.image }}
-                        className="w-full h-full object-cover"
-                      />
+                    <View className="w-16 h-16 rounded-xl bg-gray-100 dark:bg-[#2D3133] items-center justify-center">
+                      <Text className="text-[32px]">{getFruitEmoji(item.nama_buah)}</Text>
                     </View>
 
                     <View className="flex-1">

@@ -4,7 +4,6 @@ import {
   Text, 
   TouchableOpacity,
   ScrollView, 
-  Image,
   TextInput, 
   ActivityIndicator, 
   Alert,
@@ -19,7 +18,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function EditFruitScreen({ route, navigation }) {
   const { colorScheme } = useColorScheme();
-  const { fruit } = route.params; // Expecting { id_buah, sku, nama_buah, current_stock, image }
+  const { fruit } = route.params; // Expecting { id_buah, sku, nama_buah, current_stock }
 
   const [name, setName] = useState(fruit.nama_buah);
   const [stock, setStock] = useState(String(fruit.current_stock));
@@ -73,6 +72,35 @@ export default function EditFruitScreen({ route, navigation }) {
     }
   };
 
+  const handleDelete = () => {
+    Alert.alert(
+      "Konfirmasi Hapus",
+      `Apakah Anda yakin ingin menghapus produk "${fruit.nama_buah}" dari inventaris? Tindakan ini tidak dapat dibatalkan.`,
+      [
+        { text: "Batal", style: "cancel" },
+        { 
+          text: "Hapus", 
+          style: "destructive", 
+          onPress: executeDelete 
+        }
+      ]
+    );
+  };
+
+  const executeDelete = async () => {
+    setIsSubmitting(true);
+    try {
+      await inventoryService.deleteFruit(fruit.id_buah);
+      Alert.alert("Berhasil", "Produk berhasil dihapus dari inventaris.", [
+        { text: "OK", onPress: () => navigation.popToTop() }
+      ]);
+    } catch (error) {
+      Alert.alert("Gagal", error.message || "Terjadi kesalahan.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-[#F7F9FB] dark:bg-[#121212]">
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
@@ -100,25 +128,7 @@ export default function EditFruitScreen({ route, navigation }) {
           className="flex-grow px-5 pt-6"
           keyboardShouldPersistTaps="handled"
         >
-          {/* Fruit Image Section */}
-          <View className="items-center mb-6">
-            <View className="relative w-40 h-40">
-              <View className="w-full h-full rounded-2xl overflow-hidden bg-gray-100 dark:bg-[#2D3133] border-4 border-white dark:border-[#1E1E1E] shadow-sm">
-                <Image 
-                  source={{ uri: fruit.image }}
-                  className="w-full h-full object-cover"
-                />
-              </View>
-              <TouchableOpacity 
-                activeOpacity={0.8}
-                onPress={() => Alert.alert("Unggah Foto", "Fungsionalitas kamera/galeri akan diintegrasikan pada rilis berikutnya.")}
-                className="absolute bottom-0 right-0 bg-[#006C49] p-2.5 rounded-full shadow-lg border-2 border-white dark:border-[#1E1E1E] -mr-1 -mb-1"
-              >
-                <MaterialIcons name="edit" size={14} color="white" />
-              </TouchableOpacity>
-            </View>
-            <Text className="mt-3 text-xs text-gray-500">Tap untuk mengganti foto</Text>
-          </View>
+
 
           {/* Form Fields */}
           <View className="bg-white dark:bg-[#1E1E1E] rounded-xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm space-y-4">
@@ -210,6 +220,19 @@ export default function EditFruitScreen({ route, navigation }) {
                   <Text className="text-white font-bold text-base">Simpan Perubahan</Text>
                 </>
               )}
+            </TouchableOpacity>
+          </View>
+
+          {/* Delete Button */}
+          <View className="pt-3">
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={handleDelete}
+              disabled={isSubmitting}
+              className="w-full bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 py-3.5 rounded-full flex-row items-center justify-center gap-2 active:scale-95"
+            >
+              <MaterialIcons name="delete-forever" size={20} color="#BA1A1A" />
+              <Text className="text-[#BA1A1A] font-bold text-base">Hapus Produk</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

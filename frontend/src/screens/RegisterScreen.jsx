@@ -8,13 +8,15 @@ import {
   KeyboardAvoidingView, 
   Platform, 
   ScrollView,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import * as z from 'zod';
+import { authService } from '../services/auth.service';
 
 const registerSchema = z.object({
   fullName: z.string().min(1, 'Nama lengkap wajib diisi'),
@@ -42,10 +44,22 @@ export default function RegisterScreen({ navigation }) {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      // Masukkan logika integrasi API registrasi di sini
-      console.log('Register Data:', data);
+      const res = await authService.register(data.fullName, data.email, data.password);
+      Alert.alert(
+        "Registrasi Berhasil",
+        `Simpan Kunci Pemulihan ini untuk memulihkan akun:\n\n${res.recoveryKey}\n\nJangan membagikan kunci ini kepada siapa pun!`,
+        [
+          {
+            text: "Salin & Lanjutkan",
+            onPress: () => {
+              navigation.navigate('Login');
+            }
+          }
+        ],
+        { cancelable: false }
+      );
     } catch (error) {
-      console.error(error);
+      Alert.alert("Registrasi Gagal", error.detail || "Terjadi kesalahan saat mendaftar.");
     } finally {
       setIsLoading(false);
     }
@@ -68,10 +82,10 @@ export default function RegisterScreen({ navigation }) {
         <View className="w-16 h-16 bg-[#006C49] rounded-full items-center justify-center mb-4 shadow-sm shadow-[#006C49]/20">
             <MaterialIcons name="eco" size={36} color="white" />
         </View>
-        <Text className="text-[25px] font-bold text-[#191C1E] mb-1 font-sans">
+        <Text className="text-[25px] font-bold text-[#191C1E] mb-1">
             Daftar Sekarang
         </Text>
-        <Text className="text-gray-500 text-[14px] text-center font-sans">
+        <Text className="text-gray-500 text-[14px] text-center">
             Mulai kelola inventaris segar Anda.
         </Text>
         </View>

@@ -60,10 +60,10 @@ export default function LoginScreen({ navigation }) {
             <View className="w-16 h-16 bg-[#006B44] rounded-full items-center justify-center mb-4 shadow-sm shadow-[#006B44]/20">
               <MaterialIcons name="eco" size={36} color="white" />
             </View>
-            <Text className="text-[25px] font-bold text-[#006B44] mb-1.5 font-sans">
+            <Text className="text-[25px] font-bold text-[#006B44] mb-1.5">
               Stock Fruit
             </Text>
-            <Text className="text-gray-500 text-[14px] text-center font-sans">
+            <Text className="text-gray-500 text-[14px] text-center">
               Manajemen Inventaris buah segar Anda.
             </Text>
           </View>

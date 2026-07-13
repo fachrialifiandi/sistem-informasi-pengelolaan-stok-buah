@@ -4,7 +4,6 @@ import {
   Text, 
   TouchableOpacity, 
   ScrollView, 
-  Image, 
   TextInput, 
   ActivityIndicator, 
   Alert,
@@ -14,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { inventoryService } from '../services/inventory.service';
+import { getFruitEmoji } from '../utils/fruit';
 import { StatusBar } from 'expo-status-bar';
 
 export default function StockOutScreen({ navigation }) {
@@ -137,8 +137,11 @@ export default function StockOutScreen({ navigation }) {
         jumlah: parseFloat(selectedQuantities[item.id_buah])
       }));
 
-      // Asumsi service API untuk barang keluar
-      // await inventoryService.postOutgoingStock({ ... })
+      await inventoryService.postOutgoingStock({
+        items: itemsPayload,
+        reason: exitReason,
+        notes: notes.trim()
+      });
 
       Alert.alert("Berhasil", "Data stok keluar berhasil dicatat dan inventaris telah diperbarui!", [
         { text: "OK", onPress: () => navigation.goBack() }
@@ -208,11 +211,8 @@ export default function StockOutScreen({ navigation }) {
                     key={item.id_buah}
                     className="bg-white rounded-2xl p-4 shadow-[0px_4px_20px_rgba(0,108,73,0.03)] border border-gray-100 flex-row gap-4 items-center"
                   >
-                    <View className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
-                      <Image
-                        source={{ uri: item.image }}
-                        className="w-full h-full object-cover"
-                      />
+                    <View className="w-16 h-16 rounded-xl bg-gray-100 dark:bg-[#2D3133] items-center justify-center">
+                      <Text className="text-[32px]">{getFruitEmoji(item.nama_buah)}</Text>
                     </View>
 
                     <View className="flex-1">
