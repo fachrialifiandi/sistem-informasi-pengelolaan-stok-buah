@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
+from datetime import datetime
 
 class RestockItem(BaseModel):
     id_buah: int
@@ -32,6 +33,7 @@ class TransactionResponse(BaseModel):
     total_weight: float
     status: str
     type: str
+    created_at: datetime
     items: List[TransactionItemResponse]
 
     class Config:

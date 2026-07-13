@@ -124,7 +124,8 @@ def post_restock(
         total_weight=total_weight,
         status="Berhasil",
         type="incoming",
-        items=items_to_log
+        items=items_to_log,
+        created_at=now
     )
 
     return {"success": True, "message": "Restok berhasil dikonfirmasi!"}
@@ -190,7 +191,8 @@ def post_stock_out(
         total_weight=total_weight,
         status="Berhasil",
         type="outgoing",
-        items=items_to_log
+        items=items_to_log,
+        created_at=now
     )
 
     return {"success": True, "message": "Pengeluaran stok berhasil dicatat!"}
