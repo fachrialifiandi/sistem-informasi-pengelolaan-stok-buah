@@ -131,7 +131,7 @@ export default function ReportDetailScreen({ navigation }) {
         </View>
       ) : (
         <ScrollView 
-          contentContainerStyle={{ paddingBottom: 40 }}
+          contentContainerStyle={{ paddingBottom: 120 }}
           className="flex-1 px-6 pt-5"
           showsVerticalScrollIndicator={false}
         >
@@ -296,6 +296,29 @@ export default function ReportDetailScreen({ navigation }) {
           </View>
         </ScrollView>
       )}
+
+      {/* Fixed Bottom Action Bar */}
+      <View 
+        style={{ paddingBottom: Platform.OS === 'ios' ? 24 : 16 }}
+        className="absolute bottom-0 w-full bg-white/95 dark:bg-[#1E1E1E] px-6 pt-4 border-t border-gray-100 dark:border-gray-800 flex-row gap-4 shadow-[0px_-4px_20px_rgba(0,0,0,0.05)]"
+      >
+        <TouchableOpacity 
+          activeOpacity={0.8}
+          onPress={() => Alert.alert("Informasi", "Fitur export ke Excel akan hadir pada versi selanjutnya.")}
+          className="flex-1 bg-[#006C49] h-14 rounded-full flex-row items-center justify-center gap-2 shadow-lg shadow-[#006C49]/20"
+        >
+          <MaterialIcons name="file-download" size={20} color="white" />
+          <Text className="font-bold text-[14px] text-white">Export to Excel</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          activeOpacity={0.8}
+          onPress={() => Alert.alert("Informasi", "Fitur bagikan laporan akan hadir pada versi selanjutnya.")}
+          className="w-14 h-14 rounded-full bg-[#10B981] flex items-center justify-center shadow-md shadow-[#10B981]/20"
+        >
+          <MaterialIcons name="share" size={22} color="#00422B" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }

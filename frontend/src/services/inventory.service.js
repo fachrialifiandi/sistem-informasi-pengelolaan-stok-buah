@@ -9,6 +9,43 @@ const resolveImageUrl = (imageUrl) => {
   return imageUrl;
 };
 
+const formatTransactionDateTime = (createdAtStr) => {
+  if (!createdAtStr) return { timeStr: "00:00 WIB", dateGroup: "Hari Ini" };
+  
+  const txDate = new Date(createdAtStr);
+  if (isNaN(txDate.getTime())) {
+    return { timeStr: "00:00 WIB", dateGroup: "Hari Ini" };
+  }
+  
+  const hours = String(txDate.getHours()).padStart(2, '0');
+  const minutes = String(txDate.getMinutes()).padStart(2, '0');
+  const timeStr = `${hours}:${minutes} WIB`;
+  
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  
+  const isSameDay = (d1, d2) => 
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+    
+  let dateGroup = "";
+  if (isSameDay(txDate, today)) {
+    dateGroup = "Hari Ini";
+  } else if (isSameDay(txDate, yesterday)) {
+    dateGroup = "Kemarin";
+  } else {
+    const day = txDate.getDate();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const month = months[txDate.getMonth()];
+    const year = txDate.getFullYear();
+    dateGroup = `${day} ${month} ${year}`;
+  }
+  
+  return { timeStr, dateGroup };
+};
+
 export const inventoryService = {
   /**
    * Fetch current inventory items with stock level metadata.
@@ -38,13 +75,18 @@ export const inventoryService = {
       params.period = period;
     }
     const response = await api.get('/api/v1/transactions/', { params });
-    return response.data.map(tx => ({
-      ...tx,
-      items: tx.items?.map(item => ({
-        ...item,
-        image: resolveImageUrl(item.image)
-      }))
-    }));
+    return response.data.map(tx => {
+      const { timeStr, dateGroup } = formatTransactionDateTime(tx.created_at);
+      return {
+        ...tx,
+        time_str: timeStr,
+        date_group: dateGroup,
+        items: tx.items?.map(item => ({
+          ...item,
+          image: resolveImageUrl(item.image)
+        }))
+      };
+    });
   },
 
   /**

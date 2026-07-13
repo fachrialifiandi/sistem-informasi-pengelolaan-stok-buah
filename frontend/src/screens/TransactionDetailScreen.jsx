@@ -16,6 +16,10 @@ export default function TransactionDetailScreen({ route, navigation }) {
   const { colorScheme } = useColorScheme();
   const { transaction } = route.params; // Expecting transaction object from TransaksiScreen
 
+  const handleDownloadNota = () => {
+    Alert.alert("Informasi", "Fitur unduh nota akan hadir pada versi selanjutnya.");
+  };
+
   // Helper to determine status badge colors
   const isSuccess = transaction.status === "Berhasil";
 
@@ -59,6 +63,17 @@ export default function TransactionDetailScreen({ route, navigation }) {
           <Text className="text-xl font-bold text-gray-800 dark:text-white">Detail Transaksi Restok</Text>
           <Text className="text-xs text-gray-400 mt-1">ID: {transaction.id_transaksi}</Text>
 
+          {/* Action Button */}
+          <View className="mt-4">
+            <TouchableOpacity 
+              activeOpacity={0.8}
+              onPress={handleDownloadNota}
+              className="py-3 px-4 bg-[#006C49] rounded-full flex-row items-center justify-center gap-2 shadow-sm"
+            >
+              <MaterialIcons name="download" size={16} color="white" />
+              <Text className="text-xs font-bold text-white">Unduh Nota</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Meta Information Bento Grid */}
@@ -67,7 +82,7 @@ export default function TransactionDetailScreen({ route, navigation }) {
           <View className="flex-1 bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
             <Text className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-2">Tanggal & Waktu</Text>
             <Text className="text-sm font-bold text-gray-800 dark:text-white">
-              {transaction.date_group === "Hari Ini" ? "Hari Ini" : transaction.date_group === "Kemarin" ? "Kemarin" : "12 Jul 2026"}
+              {transaction.date_group}
             </Text>
             <Text className="text-xs text-gray-400 mt-0.5">{transaction.time_str}</Text>
           </View>
