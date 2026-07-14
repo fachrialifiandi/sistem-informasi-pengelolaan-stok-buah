@@ -33,7 +33,7 @@ def get_stats(
         # Accumulate metrics
         if t.type == "incoming" and t.status == "Berhasil":
             total_in += t.total_weight
-        elif t.type == "outgoing":
+        elif t.type == "outgoing" and t.status == "Berhasil":
             total_out += t.total_weight
 
         # Group movements daily
@@ -44,7 +44,7 @@ def get_stats(
 
         if t.type == "incoming" and t.status == "Berhasil":
             daily_summary[date_key]["in"] += t.total_weight
-        elif t.type == "outgoing":
+        elif t.type == "outgoing" and t.status == "Berhasil":
             daily_summary[date_key]["out"] += t.total_weight
 
         daily_summary[date_key]["count"] += len(t.items) if t.items else 0
